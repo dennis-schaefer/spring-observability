@@ -11,6 +11,7 @@ services:
 
   prometheus-performance:
     image: prom/prometheus:v3.2.1
+    container_name: prometheus-performance
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.retention.time=14d
@@ -21,6 +22,7 @@ services:
 
   prometheus-utilization:
     image: prom/prometheus:v3.2.1
+    container_name: prometheus-utilization
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.retention.time=365d
@@ -28,5 +30,13 @@ services:
       - ./.docker/prometheus/prometheus-utilization.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9091:9090"
+
+  loki:
+    image: grafana/loki:3.4.3
+    container_name: loki
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"
+
 
 
