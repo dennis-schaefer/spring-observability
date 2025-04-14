@@ -1,0 +1,10 @@
+services:
+  server-database:
+    image: postgres:17.1
+    container_name: server-database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: server
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
