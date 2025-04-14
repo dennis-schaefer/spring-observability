@@ -8,3 +8,25 @@ services:
       POSTGRES_DB: server
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: secret
+
+  prometheus-performance:
+    image: prom/prometheus:v3.2.1
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=14d
+    volumes:
+      - ./.docker/prometheus/prometheus-performance.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+
+  prometheus-utilization:
+    image: prom/prometheus:v3.2.1
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=365d
+    volumes:
+      - ./.docker/prometheus/prometheus-utilization.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9091:9090"
+
+
