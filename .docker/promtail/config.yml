@@ -13,3 +13,11 @@ scrape_configs:
           job: sample-server
           application: sample-server
           __path__: /var/log/applications/sample-server.log
+  - job_name: sample-client
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: sample-client
+          application: sample-client
+          __path__: /var/log/applications/sample-client.log
