@@ -9,6 +9,8 @@ spring:
     password: secret
 ---
 management:
+  observations.key-values:
+    application: ${spring.application.name}
   endpoints.web.exposure.include: '*'
   endpoint.health.show-details: always
   tracing.sampling.probability: 1.0
@@ -16,6 +18,9 @@ management:
     http.server.requests: true
 ---
 logging:
+  level:
+    org.springframework.data: DEBUG
+    de.schaeferd: DEBUG
   file:
     name: .logs/sample-server.log
   structured:
