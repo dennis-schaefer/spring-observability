@@ -58,15 +58,23 @@ services:
     ports:
       - "3110:3100"  # Tempo
       - "9411:9411" # zipkin
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: alertmanager
+    volumes:
+      - ./.docker/alertmanager/config.yaml:/etc/alertmanager/alertmanager.yml
+    command: [ "--config.file=/etc/alertmanager/alertmanager.yml" ]
+    ports:
+      - "9093:9093"
+
   grafana:
     image: grafana/grafana:11.6.0
     container_name: grafana
     volumes:
-      - ./.docker/grafana:/etc/grafana/provisioning/datasources:ro
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - ./.docker/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
+      - ./.docker/grafana/alertpoints.yml:/etc/grafana/provisioning/alerting/alertpoints.yml:ro
+      - ./.docker/grafana/alertrules.yml:/etc/grafana/provisioning/alerting/alertrules.yml:ro
     ports:
       - "3000:3000"
     depends_on:
@@ -74,4 +82,5 @@ services:
       - prometheus-utilization
       - loki
       - tempo
+      - alertmanager
 
